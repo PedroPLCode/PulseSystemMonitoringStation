@@ -1,0 +1,32 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    {% if current_user.is_authenticated %}
+        <div class="card mb-3">
+            <div class="card-header text-center">
+                <h5>Admin Panel</h5>
+            </div>
+            <div class="card-body text-center">
+                <p class='text-muted m-0 p-0'>User: {{ current_user.login }} logged in at {{ current_user.last_login.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                <p class="text-muted m-0 p-0">System: {{ system_info }}</p>
+                <p>{{ current_user.is_authenticated }}</p>
+                <p>{{ current_user.username }}</p>
+                <p>{{ current_user.is_admin }}</p>
+                <p class="text-muted m-0 p-0">Uptime: {{ system_uptime }}</p>
+                <p class="text-muted m-0 p-0">Python: {{ python_version }}</p>
+                <p class="text-muted m-0 p-0">Flask: {{ flask_version }}</p>
+                <p class="text-muted m-0 p-0">Numpy: {{ numpy_version }}</p>
+                <p class="text-muted m-0 p-0">Pandas: {{ pandas_version }}</p>
+                <p class="text-muted m-0 p-0">Keras: {{ keras_version }}</p>
+                <p class="text-muted m-0 p-0">Database: {{ db_engine }}</p>
+                <p class="text-muted m-0 p-0">User Agent: {{ user_agent }}</p>
+            </div>
+        </div>
+    {% else %}
+        <p class='text-center'>log in to manage settings and db</p>
+    {% endif %}
+</div>
+
+{% endblock %}
