@@ -1,10 +1,21 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from flask_wtf import FlaskForm, RecaptchaField
+from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo
 
+
 class RegisterForm(FlaskForm):
-    username = StringField('Nazwa użytkownika', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Hasło', validators=[DataRequired()])
-    confirm_password = PasswordField('Potwierdź hasło', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Zarejestruj')
+    recaptcha = RecaptchaField()
+    username = StringField(
+        render_kw={"placeholder": "Username"}, validators=[DataRequired()]
+    )
+    email = StringField(
+        render_kw={"placeholder": "Email"}, validators=[DataRequired(), Email()]
+    )
+    password = PasswordField(
+        render_kw={"placeholder": "Password"}, validators=[DataRequired()]
+    )
+    confirm_password = PasswordField(
+        render_kw={"placeholder": "Confirm password"},
+        validators=[DataRequired(), EqualTo("password")],
+    )
+    submit = SubmitField("Register")

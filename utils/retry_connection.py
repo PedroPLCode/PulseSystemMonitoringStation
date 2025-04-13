@@ -1,8 +1,7 @@
 import time
 import requests
 import smtplib
-from binance.exceptions import BinanceAPIException
-from app.utils.logging import logger
+from utils.logging import logger
 
 
 def retry_connection(max_retries=3, delay=1):
@@ -23,7 +22,6 @@ def retry_connection(max_retries=3, delay=1):
                     ConnectionError,
                     TimeoutError,
                     requests.exceptions.RequestException,
-                    BinanceAPIException,
                     smtplib.SMTPException,
                     OSError,
                 ) as e:

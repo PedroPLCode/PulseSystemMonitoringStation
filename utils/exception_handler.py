@@ -1,7 +1,6 @@
 import sys
 import functools
 import logging
-from binance.exceptions import BinanceAPIException
 from sqlalchemy.exc import SQLAlchemyError
 
 logger = logging.getLogger(__name__)
@@ -64,7 +63,6 @@ def exception_handler(default_return=None, db_rollback=False):
                 return func(*args, **kwargs)
             except (
                 IndexError,
-                BinanceAPIException,
                 ConnectionError,
                 TimeoutError,
                 ValueError,

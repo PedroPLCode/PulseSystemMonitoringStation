@@ -4,16 +4,16 @@ from flask.cli import load_dotenv
 from telegram import Bot as TelegramBot
 from flask import current_app
 from models import User
-#from ..utils.logging import logger
-#from ..utils.email_utils import send_admin_email
-#from ..utils.exception_handlers import exception_handler
-#from ..utils.retry_connection import retry_connection
+from utils.logging import logger
+from utils.email_utils import send_admin_email
+from utils.exception_handler import exception_handler
+from utils.retry_connection import retry_connection
 
 load_dotenv()
 
 
-#@exception_handler(default_return=False)
-#@retry_connection()
+@exception_handler(default_return=False)
+@retry_connection()
 def init_telegram_bot() -> TelegramBot:
     """
     Initializes and returns a Telegram bot instance.
@@ -25,8 +25,8 @@ def init_telegram_bot() -> TelegramBot:
     return TelegramBot(token=TELEGRAM_API_SECRET)
 
 
-#@exception_handler(default_return=False)
-#@retry_connection()
+@exception_handler(default_return=False)
+@retry_connection()
 def send_telegram(chat_id: str, msg: str) -> bool:
     """
     Sends a message to a specific Telegram chat.
@@ -42,14 +42,14 @@ def send_telegram(chat_id: str, msg: str) -> bool:
 
     if telegram_bot:
         asyncio.run(telegram_bot.send_message(chat_id=chat_id, text=msg))
-        
-        #logger.info(f"Telegram {chat_id} {msg} sent succesfully.")
+
+        logger.info(f"Telegram {chat_id} {msg} sent succesfully.")
         return True
 
     return False
 
 
-#@exception_handler()
+@exception_handler()
 def filter_users_and_send_alert_telegram(msg: str) -> None:
     """
     Sends a trade-related notification to all users with Telegram notifications enabled.
@@ -61,15 +61,17 @@ def filter_users_and_send_alert_telegram(msg: str) -> None:
         Logs an error if the message fails to send.
     """
     with current_app.app_context():
-        telegram_alerts_receivers = User.query.filter_by(telegram_alerts_receiver=True).all()
+        telegram_alerts_receivers = User.query.filter_by(
+            telegram_alerts_receiver=True
+        ).all()
 
         for user in telegram_alerts_receivers:
-            success = send_telegram(chat_id='7575513189', msg=msg)
-            #if not success:
-                #logger.error(
-                #    f"Failed to send trade info telegram to {user.email}. {msg}"
-                #)
-                #send_admin_email(
-                #    f"Error in filter_users_and_send_trade_telegrams",
-                #    f"Failed to send trade info telegram to {user.email}",
-                #)
+            success = send_telegram(chat_id=user.telegram_chat_id, msg=msg)
+            if not success:
+                logger.error(
+                    f"Failed to send trade info telegram to {user.email}. {msg}"
+                )
+                send_admin_email(
+                    f"Error in filter_users_and_send_trade_telegrams",
+                    f"Failed to send trade info telegram to {user.email}",
+                )

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block base %}
+
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-white">
+        <div class="container-fluid">
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <a class="text-dark fs-6 navbar-brand p-0 m-0" href="/">PulseSystemMonitoringStation</a>
+                <p class="text-dark p-0 m-0">{{ date_and_time }}</p>
+                <p class="text-dark p-0 m-0">{% if not user.is_authenticated %}Guest not logged in{% else %}Logged in as&nbsp;<a href="/admin/">{{ user.username }}{% endif %}</a></p>
+            </div>       
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-2">
+
+                    
+                    {% if user.is_admin %}
+                    <li class="nav-item">
+                        <a href="/admin" class="text-center btn btn-primary">Admin Panel</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
+                        <a href="{{ url_for('logout') }}" class="text-center btn btn-danger">Logout</a>
+                        {% else %}
+                        <a href="{{ url_for('login') }}" class="text-center btn btn-success">Login</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>            
+        </div>
+    </nav>
+
+    <div class="container d-flex flex-column justify-content-center align-items-center mt-5">
+
+        {% with messages = get_flashed_messages(with_categories=True) %}
+
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="col-md-6 text-center alert alert-{{ category }} mt-5" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="mt-5"></div>
+            {% endif %}
+
+        {% endwith %}
+        
+        {% block content %}
+        {% endblock content %}
+
+    </div>
+
+{% block scripts %}
+{% endblock %}
+
+{% endblock base %}

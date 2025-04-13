@@ -3,14 +3,13 @@ from flask_mail import Message
 from datetime import datetime
 from typing import Any
 from models import User
-#from ..utils.logging import logger
-#from ..utils.exception_handlers import exception_handler
-#from ..utils.retry_connection import retry_connection
-#from ..utils.reports_utils import generate_trade_report
+from utils.logging import logger
+from utils.exception_handler import exception_handler
+from utils.retry_connection import retry_connection
 
 
-#@exception_handler(default_return=False)
-#@retry_connection()
+@exception_handler(default_return=False)
+@retry_connection()
 def send_email(email: str, subject: str, body: str) -> bool:
     """
     Sends an email to a specified recipient.
@@ -36,7 +35,7 @@ def send_email(email: str, subject: str, body: str) -> bool:
         message = Message(subject=subject, recipients=[email])
         message.body = body
         mail.send(message)
-        #logger.info(f'Email "{subject}" to {email} sent succesfully.')
+        logger.info(f'Email "{subject}" to {email} sent succesfully.')
         return True
 
 
@@ -57,19 +56,18 @@ def send_admin_email(subject: str, body: str) -> Any:
     """
     try:
         with current_app.app_context():
-            users = User.query.filter_by(admin_panel_access=True).all()
+            users = User.query.filter_by(is_admin=True).all()
             for user in users:
                 success = send_email(user.email, subject, body)
-                #if not success:
-                    #logger.error(
-                    #    f"Failed to send admin email to {user.email}. {subject} {body}"
-                    #)
+                if not success:
+                    logger.error(
+                        f"Failed to send admin email to {user.email}. {subject} {body}"
+                    )
     except Exception as e:
-        pass
-        #logger.error(f"Exception in send_admin_email: {str(e)}")
+        logger.error(f"Exception in send_admin_email: {str(e)}")
 
 
-#@exception_handler()
+@exception_handler()
 def filter_users_and_send_alert_email(subject: str, body: str) -> Any:
     """
     Sends trade-related notifications via email.
@@ -87,14 +85,14 @@ def filter_users_and_send_alert_email(subject: str, body: str) -> Any:
     """
     with current_app.app_context():
         email_alerts_receivers = User.query.filter_by(email_alerts_receiver=True).all()
-        
+
         for user in email_alerts_receivers:
             success = send_email(user.email, subject, body)
-            #if not success:
-            #    logger.error(
-            #        f"Failed to send trade info email to {user.email}. {subject} {body}"
-            #    )
-            #    send_admin_email(
-            #        f"Error in filter_users_and_send_trade_emails",
-            #        f"Failed to send trade info email to {user.email}",
-            #    )
+            if not success:
+                logger.error(
+                    f"Failed to send trade info email to {user.email}. {subject} {body}"
+                )
+                send_admin_email(
+                    f"Error in filter_users_and_send_trade_emails",
+                    f"Failed to send trade info email to {user.email}",
+                )

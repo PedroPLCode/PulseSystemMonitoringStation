@@ -4,28 +4,35 @@
 
 <div class="d-flex flex-column justify-content-center align-items-center">
     {% if current_user.is_authenticated %}
-        <div class="card mb-3">
+        <div class="card bg-light mb-3">
             <div class="card-header text-center">
-                <h5>Admin Panel</h5>
+                <h5>{% if current_user.is_admin %}Admin{% else %}User{% endif %} Panel</h5>
             </div>
             <div class="card-body text-center">
-                <p class='text-muted m-0 p-0'>User: {{ current_user.login }} logged in at {{ current_user.last_login.strftime('%Y-%m-%d %H:%M:%S') }}</p>
-                <p class="text-muted m-0 p-0">System: {{ system_info }}</p>
-                <p>{{ current_user.is_authenticated }}</p>
-                <p>{{ current_user.username }}</p>
-                <p>{{ current_user.is_admin }}</p>
-                <p class="text-muted m-0 p-0">Uptime: {{ system_uptime }}</p>
-                <p class="text-muted m-0 p-0">Python: {{ python_version }}</p>
-                <p class="text-muted m-0 p-0">Flask: {{ flask_version }}</p>
-                <p class="text-muted m-0 p-0">Numpy: {{ numpy_version }}</p>
-                <p class="text-muted m-0 p-0">Pandas: {{ pandas_version }}</p>
-                <p class="text-muted m-0 p-0">Keras: {{ keras_version }}</p>
-                <p class="text-muted m-0 p-0">Database: {{ db_engine }}</p>
-                <p class="text-muted m-0 p-0">User Agent: {{ user_agent }}</p>
+                <p class="m-0 p-0">User Data:</p>
+                <p class='m-0 p-0'>username: {{ current_user.username }}</p>
+                <p class="m-0 p-0">is_admin: {{ current_user.is_admin }}</p>
+                <p class='m-0 p-0'>email_alerts_receiver: {{ current_user.email_alerts_receiver }}</p>
+                <p class="m-0 p-0">telegram_alerts_receiver: {{ current_user.telegram_alerts_receiver }}</p>
+                <p class='m-0 p-0'>email: {{ current_user.email }}</p>
+                <p class="m-0 p-0">telegram_chat_id: {{ current_user.telegram_chat_id }}</p>
+                <p class='m-0 p-0'>date_created: {{ current_user.date_created }}</p>
+                <p class="m-0 p-0 mb-3">last_login: {{ current_user.last_login }}</p>
+
+                {% if current_user.is_admin %}
+                    <p class="m-0 p-0">System Data:</p>
+                    <p class="m-0 p-0">System: {{ system_info }}</p>
+                    <p class="m-0 p-0">Uptime: {{ system_uptime }}</p>
+                    <p class="m-0 p-0">Python: {{ python_version }}</p>
+                    <p class="m-0 p-0">Flask: {{ flask_version }}</p>
+                    <p class="m-0 p-0 mb-3">Database: {{ db_engine }}</p>
+                {% endif %}
+
+                <p class="m-0 p-0">User Agent:<br>{{ user_agent }}</p>
             </div>
         </div>
     {% else %}
-        <p class='text-center'>log in to manage settings and db</p>
+        <p class='text-center'>log in to access admin panel</p>
     {% endif %}
 </div>
 

@@ -53,7 +53,7 @@
                     <p class="text-dark nav navbar-nav navbar-right">{{ admin_view.admin.name }}</p>
                     <p class="text-dark nav navbar-nav navbar-right"> {{ date_and_time }}</p>
                     {% if current_user.is_authenticated %}
-                        <p class="text-dark nav navbar-nav navbar-right">Logged in as&nbsp;<a href="/">{{ current_user.username }}</a></p>
+                        <p class="text-dark nav navbar-nav navbar-right">Logged in as&nbsp;<a href="/admin/">{{ current_user.username }}</a></p>
                     {% endif %}
                 </div>
                 {% endblock %}
@@ -73,6 +73,15 @@
                 {% endblock %}
         
                 {% block access_control %}{% endblock %}
+
+                <div class="d-flex flex-row justify-content-center align-items-center">
+                    <a href="/" class="btn btn-primary w-100 mr-2">Dashboard</a>
+                    {% if user and user.is_authenticated %}
+                        <a href="{{ url_for('logout') }}" class="btn btn-danger w-100">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-warning w-100">Login</a>
+                    {% endif %}
+                </div>
         
             </div>
         </nav>        
@@ -86,30 +95,13 @@
 
         {% block body %}{% endblock %}
 
-        <div class="w-100 card mb-3">
-            <div class="w-100 card-header text-center bg-light">
-                <h5>Navigation</h5>
-            </div>
-            <div class="p-3 card-body text-center">
-                <div class="d-flex flex-column justify-content-center align-items-center">
-                    <a href="/" class="btn btn-primary w-100 mb-2">User Panel</a>
-                    {% if user and user.control_panel_access %}
-                        <a href="/control" class="btn btn-primary w-100 mb-2">Control Panel</a>
-                        <a href="/analysis" class="btn btn-primary w-100 mb-2">Techical Analysis</a>
-                        <a href="/backtest" class="btn btn-primary w-100 mb-2">Backtest Panel</a>
-                        <a href="/trades" class="btn btn-primary w-100 mb-2">Trades History</a>
-                    <a href="{{ url_for('main.logout') }}" class="btn btn-danger w-100">Logout</a>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
     </div>
 
 
 
     <footer class="text-center mb-3">
         <p class="text-muted">
-            <a href="mailto:StefanCryptoTradingBot@gmail.com">StefanCryptoTradingBot@gmail.com</a>
+            <a href="mailto:PulseSystemMonitoringStation@gmail.com">PulseSystemMonitoringStation@gmail.com</a>
         </p>
     </footer>
 {% endblock %}

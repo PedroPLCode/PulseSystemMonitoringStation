@@ -1,0 +1,65 @@
+{% extends "base_inside.html" %}
+
+{% block title %}PulseSystemMonitoringStation{% endblock %}
+
+{% block content %}
+
+<div class="container my-4">
+
+    <div class="card bg-light mb-3">
+        <div class="card-header text-center">
+            <h4 class="text-center m-0 p-0">Dashboard</h4>
+        </div>
+        <div class="card-body text-center">
+            <p class="m-0 p-0 mb-3">System Uptime:<br>{{ system_uptime }}</p>
+            <p class="m-0 p-0">User Agent:<br>{{ user_agent }}</p>
+        </div>
+    </div>
+
+
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4 class="text-center m-0 p-0">CPU usage</h4>
+                </div>
+                <div class="card-body text-center">
+                    <canvas id="cpuChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card p-3">
+                <canvas id="temperatureChart"></canvas>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card p-3">
+                <canvas id="ramChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3">
+                <canvas id="netSentChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-3">
+                <canvas id="netRecvChart"></canvas>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card p-3">
+                <canvas id="diskChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/monitoring.js') }}"></script>
+{% endblock %}
+
