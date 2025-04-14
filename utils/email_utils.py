@@ -1,12 +1,12 @@
 from flask import current_app
 from flask_mail import Message
-from datetime import datetime
+import time
+from datetime import datetime, timedelta
 from typing import Any
 from models import User
 from utils.logging import logger
 from utils.exception_handler import exception_handler
 from utils.retry_connection import retry_connection
-
 
 @exception_handler(default_return=False)
 @retry_connection()
@@ -87,12 +87,17 @@ def filter_users_and_send_alert_email(subject: str, body: str) -> Any:
         email_alerts_receivers = User.query.filter_by(email_alerts_receiver=True).all()
 
         for user in email_alerts_receivers:
-            success = send_email(user.email, subject, body)
-            if not success:
-                logger.error(
-                    f"Failed to send trade info email to {user.email}. {subject} {body}"
-                )
-                send_admin_email(
-                    f"Error in filter_users_and_send_trade_emails",
-                    f"Failed to send trade info email to {user.email}",
-                )
+            if user.last_alert_time is None or datetime.now() - user.last_alert_time >= timedelta(hours=1):
+                success = send_email(user.email, subject, body)
+                if success:
+                    user.update_last_alert_time()
+                else:
+                    logger.error(
+                        f"Failed to send trade info email to {user.email}. {subject} {body}"
+                    )
+                    send_admin_email(
+                        f"Error in filter_users_and_send_trade_emails",
+                        f"Failed to send trade info email to {user.email}",
+                    )
+            else:
+                logger.warning("Email alert not sent: Less than an hour since last alert.")

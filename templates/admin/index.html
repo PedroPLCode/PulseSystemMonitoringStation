@@ -16,8 +16,11 @@
                 <p class="m-0 p-0">telegram_alerts_receiver: {{ current_user.telegram_alerts_receiver }}</p>
                 <p class='m-0 p-0'>email: {{ current_user.email }}</p>
                 <p class="m-0 p-0">telegram_chat_id: {{ current_user.telegram_chat_id }}</p>
+                <p class="m-0 p-0">login_errors: {{ current_user.login_errors }}</p>
+                <p class="m-0 p-0">is_suspended: {{ current_user.is_suspended }}</p>
                 <p class='m-0 p-0'>date_created: {{ current_user.date_created }}</p>
-                <p class="m-0 p-0 mb-3">last_login: {{ current_user.last_login }}</p>
+                <p class="m-0 p-0">last_login: {{ current_user.last_login }}</p>
+                <p class="m-0 p-0 mb-3">last_alert_time: {{ current_user.last_alert_time }}</p>
 
                 {% if current_user.is_admin %}
                     <p class="m-0 p-0">System Data:</p>

@@ -1,44 +1,51 @@
 import sys
 import functools
 import logging
+from typing import Any, Callable, Optional, TypeVar, Union
 from sqlalchemy.exc import SQLAlchemyError
 
 logger = logging.getLogger(__name__)
 
+F = TypeVar("F", bound=Callable[..., Any])
 
-def exception_handler(default_return=None, db_rollback=False):
+def exception_handler(
+    default_return: Optional[Union[Any, Callable[[], Any]]] = None,
+    db_rollback: bool = False
+) -> Callable[[F], F]:
     """
     A decorator that catches exceptions, logs the error, optionally rolls back the database session,
     and sends an email notification.
 
     Args:
-        default_return (Any, optional): The value to return if an exception occurs. Defaults to None.
-        db_rollback (bool, optional): If True, rolls back the database session upon an exception. Defaults to False.
+        default_return (Any, optional): The value or callable to return if an exception occurs.
+                                        If set to `exit`, calls sys.exit(1). Defaults to None.
+        db_rollback (bool, optional): If True, rolls back the database session upon an exception.
+                                      Defaults to False.
 
     Returns:
-        function: A wrapped function that handles exceptions.
+        Callable: A decorator wrapping the target function with exception handling logic.
 
     Exceptions Caught:
         - IndexError
-        - BinanceAPIException
         - ConnectionError
         - TimeoutError
         - ValueError
         - TypeError
         - FileNotFoundError
+        - SQLAlchemyError
         - General Exception (any other unexpected errors)
 
     Behavior:
         - Logs the exception with the bot ID (if available).
         - Sends an email notification to the administrator.
         - Optionally rolls back the database session if `db_rollback=True`.
-        - Returns `default_return` in case of an error.
+        - Returns `default_return` or its result in case of an error.
     """
 
-    def exception_handler_decorator(func):
+    def exception_handler_decorator(func: F) -> F:
         @functools.wraps(func)
-        def exception_handler_wrapper(*args, **kwargs):
-            bot_id = None
+        def exception_handler_wrapper(*args: Any, **kwargs: Any) -> Any:
+            bot_id: Optional[int] = None
 
             if "bot_settings" in kwargs and hasattr(kwargs["bot_settings"], "id"):
                 bot_id = kwargs["bot_settings"].id

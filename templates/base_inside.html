@@ -15,12 +15,9 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto gap-2">
 
-                    
-                    {% if user.is_admin %}
                     <li class="nav-item">
-                        <a href="/admin" class="text-center btn btn-primary">Admin Panel</a>
+                        <a href="/admin" class="text-center btn btn-primary">{% if user.is_admin %}Admin{% else %}User{% endif %} Panel</a>
                     </li>
-                    {% endif %}
 
                     <li class="nav-item">
                         {% if user.is_authenticated %}

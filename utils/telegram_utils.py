@@ -1,6 +1,8 @@
 import os
 import asyncio
 from flask.cli import load_dotenv
+import time
+from datetime import datetime, timedelta
 from telegram import Bot as TelegramBot
 from flask import current_app
 from models import User
@@ -66,12 +68,17 @@ def filter_users_and_send_alert_telegram(msg: str) -> None:
         ).all()
 
         for user in telegram_alerts_receivers:
-            success = send_telegram(chat_id=user.telegram_chat_id, msg=msg)
-            if not success:
-                logger.error(
-                    f"Failed to send trade info telegram to {user.email}. {msg}"
-                )
-                send_admin_email(
-                    f"Error in filter_users_and_send_trade_telegrams",
-                    f"Failed to send trade info telegram to {user.email}",
-                )
+            if user.last_alert_time is None or datetime.now() - user.last_alert_time >= timedelta(hours=1):
+                success = send_telegram(chat_id=user.telegram_chat_id, msg=msg)
+                if success:
+                    user.update_last_alert_time()
+                else:
+                    logger.error(
+                        f"Failed to send trade info telegram to {user.email}. {msg}"
+                    )
+                    send_admin_email(
+                        f"Error in filter_users_and_send_trade_telegrams",
+                        f"Failed to send trade info telegram to {user.email}",
+                    )
+            else:
+                logger.warning("Telegram alert not sent: Less than an hour since last alert.")

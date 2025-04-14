@@ -1,0 +1,16 @@
+{% extends 'base_outside.html' %}
+
+{% block content %}
+
+    <div class="card-header text-center">
+        <h5>Limiter Error</h5>
+    </div>
+    <div class="card-body">
+        <p class="text-center" >Error:
+            {% if error_msg %}
+                {{ error_msg }}
+            {% endif %}
+        </p>
+    </div>
+
+{% endblock %}

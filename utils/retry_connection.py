@@ -1,20 +1,26 @@
 import time
 import requests
 import smtplib
+from typing import Callable, Any, TypeVar
 from utils.logging import logger
 
+F = TypeVar("F", bound=Callable[..., Any])
 
-def retry_connection(max_retries=3, delay=1):
+def retry_connection(max_retries: int = 3, delay: float = 1) -> Callable[[F], F]:
     """
-    A decorator that retries connecting to the API in case of connection issues.
+    A decorator that retries connecting to the API or other services in case of connection issues.
 
-    :param max_retries: Maximum number of retry attempts.
-    :param delay: Time in seconds between each retry attempt.
+    Args:
+        max_retries (int): Maximum number of retry attempts.
+        delay (float): Time in seconds between each retry attempt.
+
+    Returns:
+        Callable: A decorator that wraps the target function with retry logic.
     """
 
-    def retry_connection_decorator(func):
-        def retry_connection_wrapper(*args, **kwargs):
-            retries = 0
+    def retry_connection_decorator(func: F) -> F:
+        def retry_connection_wrapper(*args: Any, **kwargs: Any) -> Any:
+            retries: int = 0
             while retries < max_retries:
                 try:
                     return func(*args, **kwargs)
@@ -30,7 +36,10 @@ def retry_connection(max_retries=3, delay=1):
                         f"retry_connection Connection failed (attempt {retries}/{max_retries}). Retrying in {delay} seconds..."
                     )
                     time.sleep(delay)
-            error_msg = f"retry_connection. Max retries reached. Connection failed. max_retries: {max_retries}, delay: {delay}"
+            error_msg: str = (
+                f"retry_connection. Max retries reached. Connection failed. "
+                f"max_retries: {max_retries}, delay: {delay}"
+            )
             logger.error(error_msg)
             raise Exception(error_msg)
 

@@ -5,11 +5,41 @@ from forms import UserForm
 
 
 class AdminModelView(ModelView):
+    """
+    A customized SQLAlchemy admin view that restricts access 
+    to authenticated admin users only.
+
+    Attributes:
+        form (UserForm): The form used for creating and editing users in the admin panel.
+
+    Methods:
+        is_accessible() -> bool:
+            Checks if the current user is authenticated and has admin privileges.
+        
+        inaccessible_callback(name: str, **kwargs) -> Any:
+            Redirects unauthorized users to the login page with an error message.
+    """
     form = UserForm
 
-    def is_accessible(self):
+    def is_accessible(self) -> bool:
+        """
+        Determines whether the current user is allowed to access the admin view.
+
+        Returns:
+            bool: True if the user is authenticated and has admin rights, False otherwise.
+        """
         return current_user.is_authenticated and current_user.is_admin
 
-    def inaccessible_callback(self, name, **kwargs):
+    def inaccessible_callback(self, name: str, **kwargs) -> str:
+        """
+        Handles unauthorized access attempts by redirecting to the login page.
+
+        Args:
+            name (str): The name of the attempted admin view.
+            **kwargs: Additional keyword arguments.
+
+        Returns:
+            str: A redirect response to the login page.
+        """
         flash("You have no access to Admin Panel.", "danger")
         return redirect(url_for("login"))

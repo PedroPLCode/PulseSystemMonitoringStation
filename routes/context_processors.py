@@ -42,7 +42,7 @@ def to_datetime(timestamp: int) -> object:
 
 
 @app.context_processor
-def inject_current_user():
+def inject_current_user() -> dict:
     """
     Injects the current logged-in user into the context for use in templates.
 
@@ -54,7 +54,7 @@ def inject_current_user():
 
 
 @app.context_processor
-def inject_date_and_time():
+def inject_date_and_time() -> dict:
     """
     Injects the current date and time into the context for use in templates.
 
@@ -65,7 +65,7 @@ def inject_date_and_time():
 
 
 @app.context_processor
-def inject_user_agent():
+def inject_user_agent() -> dict:
     """
     Injects the User-Agent header of the request into the context for use in templates.
 
@@ -81,7 +81,7 @@ def inject_user_agent():
 
 
 @app.context_processor
-def inject_system_info():
+def inject_system_info() -> dict:
     """
     Injects the system's name, version, and release information into the context for use in templates.
 
@@ -99,7 +99,7 @@ def inject_system_info():
 
 
 @app.context_processor
-def inject_system_uptime():
+def inject_system_uptime() -> dict:
     """
     Injects the system's uptime into the context for use in templates.
 
@@ -115,7 +115,7 @@ def inject_system_uptime():
 
 
 @app.context_processor
-def inject_python_version():
+def inject_python_version() -> dict:
     """
     Injects the Python version into the context for use in templates.
 
@@ -131,7 +131,7 @@ def inject_python_version():
 
 
 @app.context_processor
-def inject_flask_version():
+def inject_flask_version() -> dict:
     """
     Injects the Flask version into the context for use in templates.
 
@@ -147,7 +147,7 @@ def inject_flask_version():
 
 
 @app.context_processor
-def inject_db_info():
+def inject_db_info() -> dict:
     """
     Injects the database engine type into the context for use in templates.
 
@@ -164,7 +164,7 @@ def inject_db_info():
 
 
 @app.shell_context_processor
-def make_shell_context():
+def make_shell_context() -> dict:
     """
     Provides useful objects for use in the Flask shell.
 
