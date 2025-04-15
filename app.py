@@ -5,6 +5,7 @@ from flask_admin import Admin
 from flask_migrate import Migrate
 from flask_mail import Mail
 from config import Config
+from functools import partial
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from models import db, User, Monitor, AdminModelView
@@ -53,14 +54,46 @@ def load_user(user_id: str) -> Optional[User]:
     return db.session.get(User, int(user_id))
 
 
+def run_job_with_context(func, *args, **kwargs):
+    logger.info(f"Running job: {func.__name__} with args: {args} and kwargs: {kwargs}")
+    with app.app_context():
+        try:
+            result = func(*args, **kwargs)
+            logger.info(f"Job {func.__name__} executed successfully. Result: {result}")
+            return result
+        except Exception as e:
+            logger.error(f"Error in run_job_with_context: job {func.__name__}: {e}")
+            with app.app_context():
+                from .utils.email_utils import send_admin_email
+
+                send_admin_email("Error in run_job_with_context", str(e))
+            raise
+        
+
 def start_scheduler() -> None:
     """
     Starts the background scheduler that periodically checks system resources.
     """
     from utils.system_monitor import check_resources
+    from utils.logs_utils import send_logs_via_email_and_clear_logs
+    from utils.db_utils import backup_database
 
     scheduler: BackgroundScheduler = BackgroundScheduler()
-    scheduler.add_job(func=check_resources, trigger="interval", minutes=1)
+    scheduler.add_job(
+            func=partial(run_job_with_context, check_resources),
+            trigger="interval",
+            minutes=1,
+        )
+    scheduler.add_job(
+            func=partial(run_job_with_context, send_logs_via_email_and_clear_logs),
+            trigger="interval",
+            hours=24,
+        )
+    scheduler.add_job(
+            func=partial(run_job_with_context, backup_database),
+            trigger="interval",
+            hours=24,
+        )
     scheduler.start()
     logger.info("scheduler.start()")
 

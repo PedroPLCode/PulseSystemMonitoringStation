@@ -57,7 +57,7 @@ def clear_logs() -> None:
     Returns:
         None
     """
-    from ..utils.logging import logs
+    from utils.logging import logs
 
     for log in logs:
         log_file_path: str = os.path.join(os.getcwd(), log)

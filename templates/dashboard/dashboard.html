@@ -11,7 +11,7 @@
             <h4 class="text-center m-0 p-0">Dashboard</h4>
         </div>
         <div class="card-body text-center">
-            <p class="m-0 p-0 mb-3">System Uptime:<br>{{ system_uptime }}</p>
+            <p class="m-0 p-0 mb-3">Last record id: {{ last_record.id }}<br>timestamp: {{ last_record.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
             <p class="text-center m-0 p-0">Current CPU Usage: <span id="cpuUsageValue">0%</span></p>
             <p class="text-center m-0 p-0 mb-3">10min Average CPU Usage: <span id="cpuAverageValue">0%</span></p>
             <p class="text-center m-0 p-0">Current CPU Temperature: <span id="temperatureValue">0°C</span></p>
@@ -21,6 +21,7 @@
             <p class="text-center m-0 p-0 mb-3">Current Disk Usage: <span id="diskUsageValue">0%</span></p>
             <p class="text-center m-0 p-0">Current Network Sent: <span id="netSentValue">0 MB</span></p>
             <p class="text-center m-0 p-0 mb-3">Current Network Received: <span id="netRecvValue">0 MB</span></p>
+            <p class="m-0 p-0 mb-3">System Uptime:<br>{{ system_uptime }}</p>
             <p class="m-0 p-0">User Agent:<br>{{ user_agent }}</p>
         </div>
     </div>
