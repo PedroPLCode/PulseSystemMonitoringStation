@@ -48,7 +48,7 @@ def check_resources() -> Tuple[float, float, float, float, float, Union[float, s
         if isinstance(cpu_temp, float) and cpu_temp >= 75:
             now = datetime.now()
             formatted_now = now.strftime("%Y-%m-%d %H:%M:%S")
-            logger.warning(f"cpu_temp >= {cpu_temp}")
+            logger.warning(f"check_resources() current cpu_temp = {cpu_temp}")
             alert_subject = "CPU Temperature Alert."
             alert_content = f"PulseSystemMonitoringStation\nhttps://pulse.ropeaccess.pro\n\nCPU temparature Alert.\n{formatted_now}\n\nCurrent cpu_temp >= {cpu_temp}"
             sent_user_alert(alert_subject, alert_content)

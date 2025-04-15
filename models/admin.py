@@ -20,6 +20,8 @@ class AdminModelView(ModelView):
             Redirects unauthorized users to the login page with an error message.
     """
     form = UserForm
+    form_excluded_columns = ['password_hash']
+    column_exclude_list = ['password_hash']
 
     def is_accessible(self) -> bool:
         """

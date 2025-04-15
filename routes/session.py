@@ -162,4 +162,4 @@ def logout() -> Response:
     """
     logout_user()
     flash("Logged out successfully.", "success")
-    return redirect(url_for("login"))
+    return redirect(url_for("dashboard"))

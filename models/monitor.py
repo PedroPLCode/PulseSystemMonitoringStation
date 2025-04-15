@@ -25,7 +25,7 @@ class Monitor(db.Model):
     disk: float = db.Column(db.Float, nullable=False)
     net_sent: float = db.Column(db.Float, nullable=False)
     net_recv: float = db.Column(db.Float, nullable=False)
-    cpu_temp: Optional[str] = db.Column(db.String(50), nullable=True)
+    cpu_temp: Optional[str] = db.Column(db.Float, nullable=False)
 
     def __repr__(self) -> str:
         """

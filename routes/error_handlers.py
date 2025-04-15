@@ -15,7 +15,7 @@ def page_not_found(error_msg: str) -> Callable:
         redirect: Redirects to the login page with a warning flash message.
     """
     flash(f"{error_msg}", "warning")
-    return redirect(url_for("login"))
+    return redirect(url_for("dashboard"))
 
 
 @app.errorhandler(429)
