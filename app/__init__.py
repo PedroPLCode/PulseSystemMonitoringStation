@@ -74,31 +74,36 @@ def start_scheduler() -> None:
     """
     Starts the background scheduler that periodically checks system resources.
     """
-    from app.utils.system_monitor import check_resources
-    from app.utils.logs_utils import send_logs_via_email_and_clear_logs
-    from app.utils.db_utils import backup_database
+    try:
+        from app.utils.system_monitor import check_resources
+        from app.utils.logs_utils import send_logs_via_email_and_clear_logs
+        from app.utils.db_utils import backup_database
 
-    scheduler: BackgroundScheduler = BackgroundScheduler()
-    scheduler.add_job(
-        func=partial(run_job_with_context, check_resources),
-        trigger="interval",
-        minutes=1,
-    )
-    scheduler.add_job(
-        func=partial(run_job_with_context, send_logs_via_email_and_clear_logs),
-        trigger="interval",
-        hours=24,
-    )
-    scheduler.add_job(
-        func=partial(run_job_with_context, backup_database),
-        trigger="interval",
-        hours=24,
-    )
-    scheduler.start()
-    logger.info("scheduler.start()")
+        scheduler: BackgroundScheduler = BackgroundScheduler()
+        scheduler.add_job(
+            func=partial(run_job_with_context, check_resources),
+            trigger="interval",
+            minutes=1,
+        )
+        scheduler.add_job(
+            func=partial(run_job_with_context, send_logs_via_email_and_clear_logs),
+            trigger="interval",
+            hours=24,
+        )
+        scheduler.add_job(
+            func=partial(run_job_with_context, backup_database),
+            trigger="interval",
+            hours=24,
+        )
+        scheduler.start()
+        logger.info("scheduler.start()")
+    
+    except Exception as e:
+        logger.error(f"Error in start_scheduler: {e}")
+        with app.app_context():
+            from app.utils.email_utils import send_admin_email
+            send_admin_email("Error in start_scheduler", str(e))
 
-
-start_scheduler()
 
 from app.routes import api, session, main
 
@@ -113,4 +118,4 @@ def create_db() -> None:
 
 if __name__ == "__main__":
     create_db()
-    app.run(debug=True, host="0.0.0.0", port=8000, use_reloader=True)
+    app.run(debug=True, host="0.0.0.0", port=8003, use_reloader=True)
