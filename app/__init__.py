@@ -82,7 +82,7 @@ def start_scheduler() -> None:
     scheduler.add_job(
         func=partial(run_job_with_context, check_resources),
         trigger="interval",
-        hours=1,
+        minutes=1,
     )
     scheduler.add_job(
         func=partial(run_job_with_context, send_logs_via_email_and_clear_logs),
