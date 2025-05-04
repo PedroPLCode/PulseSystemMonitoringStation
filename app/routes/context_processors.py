@@ -20,7 +20,7 @@ def inject_user(user_id: int) -> object:
     Returns:
         User: The user object if found, else None.
     """
-    from models import User
+    from app.models import User
 
     return User.query.get(int(user_id))
 

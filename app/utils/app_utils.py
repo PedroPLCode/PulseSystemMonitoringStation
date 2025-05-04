@@ -1,5 +1,5 @@
 from flask import Request
-from utils.exception_handler import exception_handler
+from app.utils.exception_handler import exception_handler
 
 
 @exception_handler(default_return="unknown")

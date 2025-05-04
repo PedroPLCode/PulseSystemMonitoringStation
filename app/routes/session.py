@@ -1,18 +1,18 @@
 from flask import render_template, redirect, url_for, flash, session, request, Response
 from flask_login import login_user, logout_user, login_required, current_user
-from models import db, User
-from forms import RegisterForm, LoginForm
+from app.models import db, User
+from app.forms import RegisterForm, LoginForm
 from sqlalchemy.exc import IntegrityError
 from app import app, limiter
-from utils.logging import logger
-from utils.app_utils import get_ip_address
-from utils.exception_handler import exception_handler
+from app.utils.logging import logger
+from app.utils.app_utils import get_ip_address
+from app.utils.exception_handler import exception_handler
 from typing import Optional
 
 
-@exception_handler()
-@limiter.limit("4/min")
 @app.route("/register", methods=["GET", "POST"])
+@limiter.limit("4 per hour")
+@exception_handler()
 def register() -> Response:
     """
     Renders and handles the user registration form.
@@ -25,7 +25,7 @@ def register() -> Response:
     """
     if current_user.is_authenticated:
         return redirect(url_for("dashboard"))
-    
+
     form = RegisterForm()
     if form.validate_on_submit():
         user_ip = get_ip_address(request)
@@ -53,12 +53,16 @@ def register() -> Response:
             db.session.rollback()
             flash(f"Unexpected error occurred: {str(e)}", "danger")
 
+    for field, errors in form.errors.items():
+        for error in errors:
+            flash(f"{field.capitalize()}: {error}", "danger")
+
     return render_template("user/register.html", form=form)
 
 
-@exception_handler()
-@limiter.limit("4/min")
 @app.route("/login", methods=["GET", "POST"])
+@limiter.limit("4 per hour")
+@exception_handler()
 def login() -> Response:
     """
     Renders and handles the user login form.
@@ -124,7 +128,7 @@ def handle_failed_login(user: User, user_ip: str) -> bool:
     """
     Handles a failed login attempt for a user.
 
-    Increments the user's login error counter, logs a warning, 
+    Increments the user's login error counter, logs a warning,
     displays an error message, and suspends the user if necessary.
 
     Args:

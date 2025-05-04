@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="container my-4">
+<div class="container">
 
     <div class="card bg-light mb-3">
         <div class="card-header text-center">
@@ -30,7 +30,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">CPU Usage</h4>
+                    <h4 class="text-center m-0 p-0">CPU Usage [%]</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="cpuChart"></canvas>
@@ -41,7 +41,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">CPU Temperature</h4>
+                    <h4 class="text-center m-0 p-0">CPU Temperature [°C]</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="temperatureChart"></canvas>
@@ -52,7 +52,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">RAM Usage</h4>
+                    <h4 class="text-center m-0 p-0">RAM Usage [%]</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="ramChart"></canvas>
@@ -63,7 +63,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">Network Sent</h4>
+                    <h4 class="text-center m-0 p-0">Network Sent [MB]</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="netSentChart"></canvas>
@@ -74,7 +74,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">Network Received</h4>
+                    <h4 class="text-center m-0 p-0">Network Received [MB]</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="netRecvChart"></canvas>
@@ -85,7 +85,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">Disk Usage</h4>
+                    <h4 class="text-center m-0 p-0">Disk Usage [%]</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="diskChart"></canvas>

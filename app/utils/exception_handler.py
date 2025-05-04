@@ -8,9 +8,10 @@ logger = logging.getLogger(__name__)
 
 F = TypeVar("F", bound=Callable[..., Any])
 
+
 def exception_handler(
     default_return: Optional[Union[Any, Callable[[], Any]]] = None,
-    db_rollback: bool = False
+    db_rollback: bool = False,
 ) -> Callable[[F], F]:
     """
     A decorator that catches exceptions, logs the error, optionally rolls back the database session,

@@ -1,7 +1,6 @@
 class ChartCreator {
-    constructor(canvasId, label, color, key) {
+    constructor(canvasId, color, key) {
         this.canvasId = canvasId;
-        this.label = label;
         this.color = color;
         this.key = key;
         this.chart = null;
@@ -13,7 +12,6 @@ class ChartCreator {
             data: {
                 labels: [],
                 datasets: [{
-                    label: this.label,
                     data: [],
                     borderColor: this.color,
                     fill: false,
@@ -22,6 +20,11 @@ class ChartCreator {
             options: {
                 scales: {
                     x: { display: false }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
                 }
             }
         });

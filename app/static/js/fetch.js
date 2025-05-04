@@ -26,21 +26,20 @@ function fetchData() {
 
             const { timestamps } = data;
             const chartData = [
-                { id: 'cpuChart', label: 'CPU Usage (%)', color: 'rgba(255, 99, 132, 1)', key: 'cpu_usage' },
-                { id: 'ramChart', label: 'RAM Usage (%)', color: 'rgba(54, 162, 235, 1)', key: 'ram' },
-                { id: 'diskChart', label: 'Disk Usage (%)', color: 'rgba(75, 192, 192, 1)', key: 'disk' },
-                { id: 'netSentChart', label: 'Network Sent (MB)', color: 'rgba(153, 102, 255, 1)', key: 'net_sent' },
-                { id: 'netRecvChart', label: 'Network Received (MB)', color: 'rgba(255, 159, 64, 1)', key: 'net_recv' },
-                { id: 'temperatureChart', label: 'Temperature (°C)', color: 'rgba(255, 205, 86, 1)', key: 'temperature' }
+                { id: 'cpuChart', color: 'rgba(255, 99, 132, 1)', key: 'cpu_usage' },
+                { id: 'ramChart', color: 'rgba(54, 162, 235, 1)', key: 'ram' },
+                { id: 'diskChart', color: 'rgba(75, 192, 192, 1)', key: 'disk' },
+                { id: 'netSentChart', color: 'rgba(153, 102, 255, 1)', key: 'net_sent' },
+                { id: 'netRecvChart', color: 'rgba(255, 159, 64, 1)', key: 'net_recv' },
+                { id: 'temperatureChart', color: 'rgba(255, 205, 86, 1)', key: 'temperature' }
             ];
 
-            chartData.forEach(({ id, label, color, key }) => {
-                const chart = new ChartCreator(id, label, color, key);
+            chartData.forEach(({ id, color, key }) => {
+                const chart = new ChartCreator(id, color, key);
                 chart.createChart();
                 chart.updateChart(timestamps, data[key]);
             });
 
-            // Aktualizacja wartości
             const currentTemp = data.temperature[data.temperature.length - 1];
             const avgTemp = calculateAverage(data.temperature, timestamps);
 

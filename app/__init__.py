@@ -8,8 +8,8 @@ from config import Config
 from functools import partial
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from models import db, User, Monitor, AdminModelView
-from utils.logging import logger
+from app.models import db, User, Monitor, AdminModelView
+from app.utils.logging import logger
 from typing import Optional
 
 app: Flask = Flask(__name__)
@@ -18,12 +18,12 @@ app.config.from_object(Config)
 db.init_app(app)
 migrate: Migrate = Migrate(app, db)
 
-limiter: Limiter = Limiter(
-    get_remote_address,
-    app=app,
+limiter = Limiter(
+    key_func=get_remote_address,
     default_limits=["500 per day", "100 per hour"],
     storage_uri="memory://",
 )
+limiter.init_app(app)
 
 mail: Mail = Mail(app)
 
@@ -68,38 +68,40 @@ def run_job_with_context(func, *args, **kwargs):
 
                 send_admin_email("Error in run_job_with_context", str(e))
             raise
-        
+
 
 def start_scheduler() -> None:
     """
     Starts the background scheduler that periodically checks system resources.
     """
-    from utils.system_monitor import check_resources
-    from utils.logs_utils import send_logs_via_email_and_clear_logs
-    from utils.db_utils import backup_database
+    from app.utils.system_monitor import check_resources
+    from app.utils.logs_utils import send_logs_via_email_and_clear_logs
+    from app.utils.db_utils import backup_database
 
     scheduler: BackgroundScheduler = BackgroundScheduler()
     scheduler.add_job(
-            func=partial(run_job_with_context, check_resources),
-            trigger="interval",
-            minutes=1,
-        )
+        func=partial(run_job_with_context, check_resources),
+        trigger="interval",
+        hours=1,
+    )
     scheduler.add_job(
-            func=partial(run_job_with_context, send_logs_via_email_and_clear_logs),
-            trigger="interval",
-            hours=24,
-        )
+        func=partial(run_job_with_context, send_logs_via_email_and_clear_logs),
+        trigger="interval",
+        hours=24,
+    )
     scheduler.add_job(
-            func=partial(run_job_with_context, backup_database),
-            trigger="interval",
-            hours=24,
-        )
+        func=partial(run_job_with_context, backup_database),
+        trigger="interval",
+        hours=24,
+    )
     scheduler.start()
     logger.info("scheduler.start()")
 
+
 start_scheduler()
 
-from routes import api, session, main
+from app.routes import api, session, main
+
 
 def create_db() -> None:
     """
@@ -107,6 +109,7 @@ def create_db() -> None:
     """
     with app.app_context():
         db.create_all()
+
 
 if __name__ == "__main__":
     create_db()

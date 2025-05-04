@@ -4,7 +4,7 @@
 
 <div class="d-flex flex-column justify-content-center align-items-center">
     {% if current_user.is_authenticated %}
-        <div class="card bg-light mb-3">
+        <div class="card bg-light">
             <div class="card-header text-center">
                 <h5>{% if current_user.is_admin %}Admin{% else %}User{% endif %} Panel</h5>
             </div>
@@ -16,11 +16,11 @@
                 <p class="m-0 p-0">telegram_alerts_receiver: {{ current_user.telegram_alerts_receiver }}</p>
                 <p class='m-0 p-0'>email: {{ current_user.email }}</p>
                 <p class="m-0 p-0">telegram_chat_id: {{ current_user.telegram_chat_id }}</p>
-                <p class="m-0 p-0">login_errors: {{ current_user.login_errors }}</p>
+                <p class="m-0 p-0">login_errors: <span class="{{ 'text-danger' if current_user.login_errors != 0 }}"> {{ current_user.login_errors }} </span></p>
                 <p class="m-0 p-0">is_suspended: {{ current_user.is_suspended }}</p>
-                <p class='m-0 p-0'>date_created: {{ current_user.date_created }}</p>
-                <p class="m-0 p-0">last_login: {{ current_user.last_login }}</p>
-                <p class="m-0 p-0 mb-3">last_alert_time: {{ current_user.last_alert_time }}</p>
+                <p class='m-0 p-0'>date_created: {{ current_user.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                <p class="m-0 p-0">last_login: {{ current_user.last_login.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                <p class="m-0 p-0 mb-3">last_alert_time: {% if current_user.last_alert_time %} {{ current_user.last_alert_time.strftime('%Y-%m-%d %H:%M:%S') }} {% else  %} None {% endif %} </p>
 
                 {% if current_user.is_admin %}
                     <p class="m-0 p-0">System Data:</p>

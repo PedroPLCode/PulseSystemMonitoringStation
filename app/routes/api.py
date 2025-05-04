@@ -1,7 +1,7 @@
 from flask import jsonify, Response
-from models import Monitor
+from app.models import Monitor
 from app import app
-from utils.exception_handler import exception_handler
+from app.utils.exception_handler import exception_handler
 from typing import Any
 
 

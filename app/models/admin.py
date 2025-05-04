@@ -1,12 +1,12 @@
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from flask import redirect, url_for, flash
-from forms import UserForm
+from app.forms import UserForm
 
 
 class AdminModelView(ModelView):
     """
-    A customized SQLAlchemy admin view that restricts access 
+    A customized SQLAlchemy admin view that restricts access
     to authenticated admin users only.
 
     Attributes:
@@ -15,13 +15,14 @@ class AdminModelView(ModelView):
     Methods:
         is_accessible() -> bool:
             Checks if the current user is authenticated and has admin privileges.
-        
+
         inaccessible_callback(name: str, **kwargs) -> Any:
             Redirects unauthorized users to the login page with an error message.
     """
+
     form = UserForm
-    form_excluded_columns = ['password_hash']
-    column_exclude_list = ['password_hash']
+    form_excluded_columns = ["password_hash"]
+    column_exclude_list = ["password_hash"]
 
     def is_accessible(self) -> bool:
         """

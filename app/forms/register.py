@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired, Email, EqualTo, Length
 import re
 from wtforms.validators import ValidationError
 
+
 def password_complexity(form: FlaskForm, field: StringField) -> None:
     """
     Validator to enforce password complexity rules.
@@ -26,8 +27,8 @@ def password_complexity(form: FlaskForm, field: StringField) -> None:
         r"[!@#$%^&*(),.?\":{}|<>]", password
     ):  # Check for special characters
         raise ValidationError("Password must contain at least one special character.")
-    
-    
+
+
 class RegisterForm(FlaskForm):
     """
     A form for user registration.
@@ -49,10 +50,14 @@ class RegisterForm(FlaskForm):
         render_kw={"placeholder": "Email"}, validators=[DataRequired(), Email()]
     )
     password = PasswordField(
-        render_kw={"placeholder": "Password"}, validators=[DataRequired(), Length(min=10, max=50), password_complexity]
+        render_kw={"placeholder": "Password"},
+        validators=[DataRequired(), Length(min=10, max=50), password_complexity],
     )
     confirm_password = PasswordField(
         render_kw={"placeholder": "Confirm password"},
-        validators=[DataRequired(), EqualTo("password", message="Passwords must match.")],
+        validators=[
+            DataRequired(),
+            EqualTo("password", message="Passwords must match."),
+        ],
     )
     submit = SubmitField("Register")

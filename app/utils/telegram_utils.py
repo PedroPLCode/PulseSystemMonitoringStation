@@ -5,11 +5,11 @@ import time
 from datetime import datetime, timedelta
 from telegram import Bot as TelegramBot
 from flask import current_app
-from models import User
-from utils.logging import logger
-from utils.email_utils import send_admin_email
-from utils.exception_handler import exception_handler
-from utils.retry_connection import retry_connection
+from app.models import User
+from app.utils.logging import logger
+from app.utils.email_utils import send_admin_email
+from app.utils.exception_handler import exception_handler
+from app.utils.retry_connection import retry_connection
 
 load_dotenv()
 
@@ -68,7 +68,10 @@ def filter_users_and_send_alert_telegram(msg: str) -> None:
         ).all()
 
         for user in telegram_alerts_receivers:
-            if user.last_alert_time is None or datetime.now() - user.last_alert_time >= timedelta(hours=1):
+            if (
+                user.last_alert_time is None
+                or datetime.now() - user.last_alert_time >= timedelta(hours=1)
+            ):
                 success = send_telegram(chat_id=user.telegram_chat_id, msg=msg)
                 if success:
                     user.update_last_alert_time()
@@ -81,4 +84,6 @@ def filter_users_and_send_alert_telegram(msg: str) -> None:
                         f"Failed to send trade info telegram to {user.email}",
                     )
             else:
-                logger.warning("Telegram alert not sent: Less than an hour since last alert.")
+                logger.warning(
+                    "Telegram alert not sent: Less than an hour since last alert."
+                )

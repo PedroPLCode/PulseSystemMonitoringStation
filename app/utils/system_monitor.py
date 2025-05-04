@@ -1,14 +1,14 @@
 import psutil
 from datetime import datetime, timedelta
 from typing import List, Tuple, Union
-from models import db, Monitor
+from app.models import db, Monitor
 from app import app
-from utils.logging import logger
+from app.utils.logging import logger
 
 
 def check_resources() -> Tuple[float, float, float, float, float, Union[float, str]]:
     """
-    Checks the current system resource usage, stores it in the database, 
+    Checks the current system resource usage, stores it in the database,
     removes outdated records, and sends alerts if necessary.
 
     Returns:
@@ -37,7 +37,13 @@ def check_resources() -> Tuple[float, float, float, float, float, Union[float, s
 
         timestamp: datetime = datetime.now()
         data: List[Union[datetime, float, str]] = [
-            timestamp, cpu, ram, disk, net_sent, net_recv, cpu_temp
+            timestamp,
+            cpu,
+            ram,
+            disk,
+            net_sent,
+            net_recv,
+            cpu_temp,
         ]
 
         write_to_db(data)

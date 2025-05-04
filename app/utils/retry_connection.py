@@ -2,9 +2,10 @@ import time
 import requests
 import smtplib
 from typing import Callable, Any, TypeVar
-from utils.logging import logger
+from app.utils.logging import logger
 
 F = TypeVar("F", bound=Callable[..., Any])
+
 
 def retry_connection(max_retries: int = 3, delay: float = 1) -> Callable[[F], F]:
     """

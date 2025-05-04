@@ -2,7 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from datetime import datetime
 from typing import Optional
-from models import db
+from app.models import db
 
 
 class User(db.Model, UserMixin):
@@ -28,11 +28,19 @@ class User(db.Model, UserMixin):
     username: str = db.Column(db.String(80), unique=True, nullable=False)
     password_hash: str = db.Column(db.String(128), nullable=False)
     is_admin: bool = db.Column(db.Boolean, default=False, nullable=False)
-    email_alerts_receiver: Optional[bool] = db.Column(db.Boolean, default=False, nullable=True)
+    email_alerts_receiver: Optional[bool] = db.Column(
+        db.Boolean, default=False, nullable=True
+    )
     email: str = db.Column(db.String(120), unique=True, nullable=False)
-    telegram_alerts_receiver: Optional[bool] = db.Column(db.Boolean, default=False, nullable=True)
-    telegram_chat_id: Optional[str] = db.Column(db.String(120), unique=False, nullable=True)
-    date_created: Optional[datetime] = db.Column(db.DateTime, default=datetime.utcnow, nullable=True)
+    telegram_alerts_receiver: Optional[bool] = db.Column(
+        db.Boolean, default=False, nullable=True
+    )
+    telegram_chat_id: Optional[str] = db.Column(
+        db.String(120), unique=False, nullable=True
+    )
+    date_created: Optional[datetime] = db.Column(
+        db.DateTime, default=datetime.utcnow, nullable=True
+    )
     last_login: Optional[datetime] = db.Column(db.DateTime, nullable=True)
     last_alert_time: Optional[datetime] = db.Column(db.DateTime, nullable=True)
     login_errors: Optional[int] = db.Column(db.Integer, default=0, nullable=True)
@@ -65,7 +73,7 @@ class User(db.Model, UserMixin):
         """
         self.last_login = datetime.utcnow()
         db.session.commit()
-        
+
     def update_last_alert_time(self) -> None:
         """
         Updates the user's last alert timestamp to the current UTC time and commits the change.
