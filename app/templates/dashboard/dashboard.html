@@ -4,11 +4,11 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container col-12 col-md-6">
 
     <div class="card bg-light mb-4">
         <div class="card-header text-center">
-            <h4 class="text-center m-0 p-0">Dashboard</h4>
+            <h4 class="text-center m-0 p-0">Dashboard<br>Current data</h4>
         </div>
         <div class="card-body text-center">
             <p class="m-0 p-0 mb-3">Last record id: {{ last_record.id }}<br>timestamp: {{ last_record.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
@@ -30,7 +30,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">CPU Usage [%]</h4>
+                    <h4 class="text-center m-0 p-0">CPU Usage [%]<br> Last 24 hours</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="cpuChart"></canvas>
@@ -41,7 +41,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">CPU Temperature [°C]</h4>
+                    <h4 class="text-center m-0 p-0">CPU Temperature [°C]<br> Last 24 hours</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="temperatureChart"></canvas>
@@ -52,7 +52,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">RAM Usage [%]</h4>
+                    <h4 class="text-center m-0 p-0">RAM Usage [%]<br> Last 24 hours</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="ramChart"></canvas>
@@ -63,7 +63,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">Network Sent [MB]</h4>
+                    <h4 class="text-center m-0 p-0">Network Sent [MB]<br> Last 24 hours</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="netSentChart"></canvas>
@@ -74,7 +74,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">Network Received [MB]</h4>
+                    <h4 class="text-center m-0 p-0">Network Received [MB]<br> Last 24 hours</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="netRecvChart"></canvas>
@@ -85,7 +85,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h4 class="text-center m-0 p-0">Disk Usage [%]</h4>
+                    <h4 class="text-center m-0 p-0">Disk Usage [%]<br> Last 24hrs</h4>
                 </div>
                 <div class="card-body text-center">
                     <canvas id="diskChart"></canvas>

@@ -33,7 +33,7 @@
         </div>
     </nav>
 
-    <div class="container d-flex flex-column justify-content-center align-items-center mt-5">
+    <main class="container d-flex flex-column justify-content-center align-items-center mt-5">
 
         {% with messages = get_flashed_messages(with_categories=True) %}
 
@@ -52,7 +52,7 @@
         {% block content %}
         {% endblock content %}
 
-    </div>
+    </main>
 
 {% block scripts %}
 {% endblock %}
