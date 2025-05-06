@@ -51,7 +51,7 @@ def check_resources() -> Tuple[float, float, float, float, float, Union[float, s
 
         logger.info("check_resources() loop completed.")
 
-        if isinstance(cpu_temp, float) and cpu_temp >= 75:
+        if isinstance(cpu_temp, float) and cpu_temp >= 30: # default 75, can be adjusted
             now = datetime.now()
             formatted_now = now.strftime("%Y-%m-%d %H:%M:%S")
             logger.warning(f"check_resources() current cpu_temp = {cpu_temp}")
