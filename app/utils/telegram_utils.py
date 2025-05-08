@@ -88,5 +88,5 @@ def filter_users_and_send_alert_telegram(msg: str) -> None:
                     )
             else:
                 logger.warning(
-                    "Telegram alert not sent: Less than an hour since last alert."
+                    f"Telegram alert not sent: Less than a {alerts_frequency_hrs} hour(s) since last alert."
                 )

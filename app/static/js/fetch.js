@@ -44,9 +44,6 @@ function fetchData() {
             const avgTemp = calculateAverage(data.temperature, timestamps);
             const limitTemp = data.temperature_limit ?? 95;
 
-            console.log(limitTemp)
-            console.log(currentTemp > limitTemp)
-
             document.getElementById('cpuUsageValue').textContent = `${data.cpu_usage[data.cpu_usage.length - 1].toFixed(2)}%`;
             document.getElementById('ramUsageValue').textContent = `${data.ram[data.ram.length - 1].toFixed(2)}%`;
             document.getElementById('diskUsageValue').textContent = `${data.disk[data.disk.length - 1].toFixed(2)}%`;

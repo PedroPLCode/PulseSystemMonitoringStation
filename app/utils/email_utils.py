@@ -3,7 +3,7 @@ from flask_mail import Message
 import time
 from datetime import datetime, timedelta
 from typing import Any
-from app.models import User
+from app.models import User, Settings
 from app.utils.logging import logger
 from app.utils.exception_handler import exception_handler
 from app.utils.retry_connection import retry_connection
@@ -87,10 +87,13 @@ def filter_users_and_send_alert_email(subject: str, body: str) -> Any:
     with current_app.app_context():
         email_alerts_receivers = User.query.filter_by(email_alerts_receiver=True).all()
 
+        settings = Settings.query.first()
+        alerts_frequency_hrs = settings.alerts_frequency_hrs
+        
         for user in email_alerts_receivers:
             if (
                 user.last_alert_time is None
-                or datetime.now() - user.last_alert_time >= timedelta(hours=1)
+                or datetime.now() - user.last_alert_time >= timedelta(hours=alerts_frequency_hrs)
             ):
                 success = send_email(user.email, subject, body)
                 if success:
@@ -105,5 +108,5 @@ def filter_users_and_send_alert_email(subject: str, body: str) -> Any:
                     )
             else:
                 logger.warning(
-                    "Email alert not sent: Less than an hour since last alert."
+                    f"Email alert not sent: Less than a {alerts_frequency_hrs} hour(s) since last alert."
                 )
