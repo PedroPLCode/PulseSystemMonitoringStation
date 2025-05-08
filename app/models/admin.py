@@ -4,7 +4,7 @@ from flask import redirect, url_for, flash
 from app.forms import UserForm
 
 
-class AdminModelView(ModelView):
+class UserModelView(ModelView):
     """
     A customized SQLAlchemy admin view that restricts access
     to authenticated admin users only.

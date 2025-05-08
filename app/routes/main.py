@@ -1,6 +1,6 @@
 from flask import render_template, Response
 from app import app
-from app.models import Monitor
+from app.models import Monitor, Limits
 from app.utils.exception_handler import exception_handler
 
 
@@ -13,6 +13,11 @@ def dashboard() -> Response:
     Returns:
         Response: Rendered HTML page for the dashboard.
     """
+    limits = Limits.query.first()
     last_record = Monitor.query.order_by(Monitor.timestamp.desc()).first()
 
-    return render_template("dashboard/dashboard.html", last_record=last_record)
+    return render_template(
+        "dashboard/dashboard.html", 
+        limits=limits,
+        last_record=last_record
+        )

@@ -1,7 +1,7 @@
 import psutil
 from datetime import datetime, timedelta
 from typing import List, Tuple, Union
-from app.models import db, Monitor
+from app.models import db, Monitor, Limits
 from app import app
 from app.utils.logging import logger
 
@@ -51,12 +51,14 @@ def check_resources() -> Tuple[float, float, float, float, float, Union[float, s
 
         logger.info("check_resources() loop completed.")
 
-        if isinstance(cpu_temp, float) and cpu_temp >= 30: # default 75, can be adjusted
+        limits = Limits.query.order_by(Limits.timestamp.desc()).first()
+        
+        if isinstance(cpu_temp, float) and cpu_temp >= limits.cpu_temp:
             now = datetime.now()
             formatted_now = now.strftime("%Y-%m-%d %H:%M:%S")
             logger.warning(f"check_resources() current cpu_temp = {cpu_temp}")
             alert_subject = "CPU Temperature Alert."
-            alert_content = f"PulseSystemMonitoringStation\nhttps://pulse.ropeaccess.pro\n\nCPU temparature Alert.\n{formatted_now}\n\nCurrent cpu_temp >= {cpu_temp}"
+            alert_content = f"PulseSystemMonitoringStation\nhttps://pulse.ropeaccess.pro\n\nCPU temparature Alert.\n{formatted_now}\n\nCurrent cpu_temp = {cpu_temp}\nLimit = {limits.cpu_temp}"
             sent_user_alert(alert_subject, alert_content)
 
         return cpu, ram, disk, net_sent, net_recv, cpu_temp
@@ -70,8 +72,8 @@ def sent_user_alert(title: str, msg: str) -> None:
         title (str): The alert title for email.
         msg (str): The alert message content.
     """
-    from utils.telegram_utils import filter_users_and_send_alert_telegram
-    from utils.email_utils import filter_users_and_send_alert_email
+    from app.utils.telegram_utils import filter_users_and_send_alert_telegram
+    from app.utils.email_utils import filter_users_and_send_alert_email
 
     filter_users_and_send_alert_telegram(msg)
     filter_users_and_send_alert_email(title, msg)

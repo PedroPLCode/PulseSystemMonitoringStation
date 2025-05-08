@@ -42,6 +42,7 @@ function fetchData() {
 
             const currentTemp = data.temperature[data.temperature.length - 1];
             const avgTemp = calculateAverage(data.temperature, timestamps);
+            const limitTemp = data.temperature_limit ? data.temperature_limit : 95;
 
             document.getElementById('cpuUsageValue').textContent = `${data.cpu_usage[data.cpu_usage.length - 1].toFixed(2)}%`;
             document.getElementById('ramUsageValue').textContent = `${data.ram[data.ram.length - 1].toFixed(2)}%`;
@@ -55,8 +56,8 @@ function fetchData() {
             temperatureValueEl.textContent = `${currentTemp}°C`;
             temperatureAverageValueEl.textContent = `${avgTemp.toFixed(2)}°C`;
 
-            temperatureValueEl.className = currentTemp > 75 ? 'text-danger' : 'text-success';
-            temperatureAverageValueEl.className = avgTemp > 75 ? 'text-danger' : 'text-success';
+            temperatureValueEl.className = currentTemp > limitTemp ? 'text-danger' : 'text-success';
+            temperatureAverageValueEl.className = avgTemp > limitTemp ? 'text-danger' : 'text-success';
 
             document.getElementById('cpuAverageValue').textContent = `${calculateAverage(data.cpu_usage, timestamps).toFixed(2)}%`;
             document.getElementById('ramAverageValue').textContent = `${calculateAverage(data.ram, timestamps).toFixed(2)}%`;

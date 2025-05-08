@@ -8,7 +8,8 @@ from config import Config
 from functools import partial
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from app.models import db, User, Monitor, AdminModelView
+from flask_admin.contrib.sqla import ModelView
+from app.models import db, User, Monitor, Limits, UserModelView
 from app.utils.logging import logger
 from typing import Optional
 
@@ -36,8 +37,9 @@ admin: Admin = Admin(
     template_mode="bootstrap4",
     base_template="admin/base.html",
 )
-admin.add_view(AdminModelView(User, db.session))
-admin.add_view(AdminModelView(Monitor, db.session))
+admin.add_view(UserModelView(User, db.session))
+admin.add_view(ModelView(Monitor, db.session))
+admin.add_view(ModelView(Limits, db.session))
 
 
 @login_manager.user_loader
@@ -64,7 +66,7 @@ def run_job_with_context(func, *args, **kwargs):
         except Exception as e:
             logger.error(f"Error in run_job_with_context: job {func.__name__}: {e}")
             with app.app_context():
-                from .utils.email_utils import send_admin_email
+                from app.utils.email_utils import send_admin_email
 
                 send_admin_email("Error in run_job_with_context", str(e))
             raise
