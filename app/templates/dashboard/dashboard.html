@@ -11,18 +11,18 @@
             <h4 class="text-center m-0 p-0">Dashboard<br>Current data</h4>
         </div>
         <div class="card-body text-center">
-            <p class="m-0 p-0 mb-3">Last record id: {{ last_record.id }}<br>timestamp: {{ last_record.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
-            <p class="text-center m-0 p-0">Current CPU Usage: <span id="cpuUsageValue">0%</span></p>
-            <p class="text-center m-0 p-0 mb-3">10min Average CPU Usage: <span id="cpuAverageValue">0%</span></p>
-            <p class="text-center m-0 p-0">Current CPU Temperature: <span id="temperatureValue">0°C</span></p>
-            <p class="text-center m-0 p-0 mb-3">10min Average  CPU Temperature: <span id="temperatureAverageValue">0°C</span></p>
-            <p class="text-center m-0 p-0">Current RAM Usage: <span id="ramUsageValue">0%</span></p>
-            <p class="text-center m-0 p-0 mb-3">10min Average  RAM Usage: <span id="ramAverageValue">0%</span></p>
-            <p class="text-center m-0 p-0 mb-3">Current Disk Usage: <span id="diskUsageValue">0%</span></p>
-            <p class="text-center m-0 p-0">Current Network Sent: <span id="netSentValue">0 MB</span></p>
-            <p class="text-center m-0 p-0 mb-3">Current Network Received: <span id="netRecvValue">0 MB</span></p>
-            <p class="m-0 p-0 mb-3">System Uptime:<br>{{ system_uptime }}</p>
-            <p class="m-0 p-0">User Agent:<br>{{ user_agent }}</p>
+            <p class="m-0 p-0 mb-3">Last record id: {{ last_record.id }}<br>timestamp: {{ last_record.timestamp.strftime('%Y-%m-%d %H:%M:%S') | default('N/A') }}</p>
+            <p class="text-center m-0 p-0">Current CPU Usage: <span id="cpuUsageValue">N/A</span></p>
+            <p class="text-center m-0 p-0 mb-3">10min Average CPU Usage: <span id="cpuAverageValue">N/A</span></p>
+            <p class="text-center m-0 p-0">Current CPU Temperature: <span id="temperatureValue">N/A</span></p>
+            <p class="text-center m-0 p-0 mb-3">10min Average  CPU Temperature: <span id="temperatureAverageValue">N/A</span></p>
+            <p class="text-center m-0 p-0">Current RAM Usage: <span id="ramUsageValue">N/A</span></p>
+            <p class="text-center m-0 p-0 mb-3">10min Average  RAM Usage: <span id="ramAverageValue">N/A</span></p>
+            <p class="text-center m-0 p-0 mb-3">Current Disk Usage: <span id="diskUsageValue">N/A</span></p>
+            <p class="text-center m-0 p-0">Current Network Sent: <span id="netSentValue">N/A</span></p>
+            <p class="text-center m-0 p-0 mb-3">Current Network Received: <span id="netRecvValue">N/A</span></p>
+            <p class="m-0 p-0 mb-3">System Uptime:<br>{{ system_uptime | default('N/A') }}</p>
+            <p class="m-0 p-0">User Agent:<br>{{ user_agent | default('N/A') }}</p>
         </div>
     </div>
 

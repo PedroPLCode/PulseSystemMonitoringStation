@@ -20,12 +20,13 @@ def get_data() -> Response:
         - net_sent (list of float)
         - net_recv (list of float)
         - temperature (list of str or None)
+        - temperature_limit (float or None)
 
     Returns:
         Response: A Flask JSON response with monitoring data or an error message.
     """
     try:
-        limits = Limits.query.order_by(Limits.timestamp.desc()).first()
+        limits = Limits.query.first()
         data: list[Monitor] = Monitor.query.order_by(Monitor.timestamp).all()
 
         timestamps: list[str] = [record.timestamp.isoformat() for record in data]

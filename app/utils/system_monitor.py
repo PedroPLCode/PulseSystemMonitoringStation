@@ -51,7 +51,7 @@ def check_resources() -> Tuple[float, float, float, float, float, Union[float, s
 
         logger.info("check_resources() loop completed.")
 
-        limits = Limits.query.order_by(Limits.timestamp.desc()).first()
+        limits = Limits.query.first()
         
         if isinstance(cpu_temp, float) and cpu_temp >= limits.cpu_temp:
             now = datetime.now()
