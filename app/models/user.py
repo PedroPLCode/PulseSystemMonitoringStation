@@ -39,7 +39,7 @@ class User(db.Model, UserMixin):
         db.String(120), unique=False, nullable=True
     )
     date_created: Optional[datetime] = db.Column(
-        db.DateTime, default=datetime.utcnow, nullable=True
+        db.DateTime, default=datetime.now, nullable=True
     )
     last_login: Optional[datetime] = db.Column(db.DateTime, nullable=True)
     last_alert_time: Optional[datetime] = db.Column(db.DateTime, nullable=True)
@@ -71,14 +71,14 @@ class User(db.Model, UserMixin):
         """
         Updates the user's last login timestamp to the current UTC time and commits the change.
         """
-        self.last_login = datetime.utcnow()
+        self.last_login = datetime.now()
         db.session.commit()
 
     def update_last_alert_time(self) -> None:
         """
         Updates the user's last alert timestamp to the current UTC time and commits the change.
         """
-        self.last_alert_time = datetime.utcnow()
+        self.last_alert_time = datetime.now()
         db.session.commit()
 
     def increment_login_error(self) -> None:

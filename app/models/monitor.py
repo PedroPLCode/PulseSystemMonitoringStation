@@ -20,7 +20,7 @@ class Monitor(db.Model):
 
     id: int = db.Column(db.Integer, primary_key=True)
     timestamp: datetime = db.Column(
-        db.DateTime, nullable=False, default=datetime.utcnow
+        db.DateTime, nullable=False, default=datetime.now
     )
     cpu: float = db.Column(db.Float, nullable=False)
     ram: float = db.Column(db.Float, nullable=False)
