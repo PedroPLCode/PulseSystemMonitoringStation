@@ -4,5 +4,5 @@ db = SQLAlchemy()
 
 from .user import User
 from .monitor import Monitor
-from. limits import Limits
+from .settings import Settings
 from .admin import UserModelView

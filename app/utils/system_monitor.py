@@ -1,7 +1,7 @@
 import psutil
 from datetime import datetime, timedelta
 from typing import List, Tuple, Union
-from app.models import db, Monitor, Limits
+from app.models import db, Monitor, Settings
 from app import app
 from app.utils.logging import logger
 
@@ -51,14 +51,14 @@ def check_resources() -> Tuple[float, float, float, float, float, Union[float, s
 
         logger.info("check_resources() loop completed.")
 
-        limits = Limits.query.first()
+        settings = Settings.query.first()
         
-        if isinstance(cpu_temp, float) and cpu_temp >= limits.cpu_temp:
+        if isinstance(cpu_temp, float) and cpu_temp >= settings.cpu_alert_temp:
             now = datetime.now()
             formatted_now = now.strftime("%Y-%m-%d %H:%M:%S")
             logger.warning(f"check_resources() current cpu_temp = {cpu_temp}")
             alert_subject = "CPU Temperature Alert."
-            alert_content = f"PulseSystemMonitoringStation\nhttps://pulse.ropeaccess.pro\n\nCPU temparature Alert.\n{formatted_now}\n\nCurrent cpu_temp = {cpu_temp}\nLimit = {limits.cpu_temp}"
+            alert_content = f"PulseSystemMonitoringStation\nhttps://pulse.ropeaccess.pro\n\nCPU temparature Alert.\n{formatted_now}\n\nCurrent cpu_temp = {cpu_temp}\nLimit = {settings.cpu_alert_temp}"
             sent_user_alert(alert_subject, alert_content)
 
         return cpu, ram, disk, net_sent, net_recv, cpu_temp
@@ -115,7 +115,7 @@ def remove_old_data() -> None:
     """
     Removes monitoring records older than 24 hours from the database.
     """
-    cutoff_time: datetime = datetime.utcnow() - timedelta(hours=24)
+    cutoff_time: datetime = datetime.now() - timedelta(hours=24)
     records_to_remove = Monitor.query.filter(Monitor.timestamp < cutoff_time).all()
     for record in records_to_remove:
         db.session.delete(record)

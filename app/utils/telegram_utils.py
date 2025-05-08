@@ -5,7 +5,7 @@ import time
 from datetime import datetime, timedelta
 from telegram import Bot as TelegramBot
 from flask import current_app
-from app.models import User
+from app.models import User, Settings
 from app.utils.logging import logger
 from app.utils.email_utils import send_admin_email
 from app.utils.exception_handler import exception_handler
@@ -66,11 +66,14 @@ def filter_users_and_send_alert_telegram(msg: str) -> None:
         telegram_alerts_receivers = User.query.filter_by(
             telegram_alerts_receiver=True
         ).all()
+        
+        settings = Settings.query.first()
+        alerts_frequency_hrs = settings.alerts_frequency_hrs
 
         for user in telegram_alerts_receivers:
             if (
                 user.last_alert_time is None
-                or datetime.now() - user.last_alert_time >= timedelta(hours=1)
+                or datetime.now() - user.last_alert_time >= timedelta(hours=alerts_frequency_hrs)
             ):
                 success = send_telegram(chat_id=user.telegram_chat_id, msg=msg)
                 if success:

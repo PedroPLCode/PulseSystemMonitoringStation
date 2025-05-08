@@ -1,5 +1,5 @@
 from flask import jsonify, Response
-from app.models import Monitor, Limits
+from app.models import Monitor, Settings
 from app import app
 from app.utils.exception_handler import exception_handler
 from typing import Any
@@ -26,7 +26,7 @@ def get_data() -> Response:
         Response: A Flask JSON response with monitoring data or an error message.
     """
     try:
-        limits = Limits.query.first()
+        settings = Settings.query.first()
         data: list[Monitor] = Monitor.query.order_by(Monitor.timestamp).all()
 
         timestamps: list[str] = [record.timestamp.isoformat() for record in data]
@@ -36,7 +36,7 @@ def get_data() -> Response:
         net_sent: list[float] = [record.net_sent for record in data]
         net_recv: list[float] = [record.net_recv for record in data]
         temperature: list[Any] = [record.cpu_temp for record in data]
-        temperature_limit: float = limits.cpu_temp
+        temperature_limit: float = settings.cpu_alert_temp
 
         return jsonify(
             {

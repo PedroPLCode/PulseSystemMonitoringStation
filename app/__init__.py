@@ -9,7 +9,7 @@ from functools import partial
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_admin.contrib.sqla import ModelView
-from app.models import db, User, Monitor, Limits, UserModelView
+from app.models import db, User, Monitor, Settings, UserModelView
 from app.utils.logging import logger
 from typing import Optional
 
@@ -39,7 +39,7 @@ admin: Admin = Admin(
 )
 admin.add_view(UserModelView(User, db.session))
 admin.add_view(ModelView(Monitor, db.session))
-admin.add_view(ModelView(Limits, db.session))
+admin.add_view(ModelView(Settings, db.session))
 
 
 @login_manager.user_loader
