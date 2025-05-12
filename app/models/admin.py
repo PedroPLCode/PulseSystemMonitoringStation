@@ -4,25 +4,10 @@ from flask import redirect, url_for, flash
 from app.forms import UserForm
 
 
-class UserModelView(ModelView):
+class AdminProtectedModelView(ModelView):
     """
-    A customized SQLAlchemy admin view that restricts access
-    to authenticated admin users only.
-
-    Attributes:
-        form (UserForm): The form used for creating and editing users in the admin panel.
-
-    Methods:
-        is_accessible() -> bool:
-            Checks if the current user is authenticated and has admin privileges.
-
-        inaccessible_callback(name: str, **kwargs) -> Any:
-            Redirects unauthorized users to the login page with an error message.
+    Base admin view that restricts access to authenticated admin users only.
     """
-
-    form = UserForm
-    form_excluded_columns = ["password_hash"]
-    column_exclude_list = ["password_hash"]
 
     def is_accessible(self) -> bool:
         """
@@ -46,3 +31,19 @@ class UserModelView(ModelView):
         """
         flash("You have no access to Admin Panel.", "danger")
         return redirect(url_for("login"))
+
+
+class MyUserModelView(AdminProtectedModelView):
+    """
+    Admin view for the User model with a custom form.
+    """
+    form = UserForm
+    form_excluded_columns = ["password_hash"]
+    column_exclude_list = ["password_hash"]
+
+
+class MyModelView(AdminProtectedModelView):
+    """
+    Generic admin view for other models.
+    """
+    pass

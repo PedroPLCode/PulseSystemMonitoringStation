@@ -8,8 +8,7 @@ from config import Config
 from functools import partial
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from flask_admin.contrib.sqla import ModelView
-from app.models import db, User, Monitor, Settings, UserModelView
+from app.models import db, User, Monitor, Settings, MyUserModelView, MyModelView
 from app.utils.logging import logger
 from typing import Optional
 
@@ -37,9 +36,9 @@ admin: Admin = Admin(
     template_mode="bootstrap4",
     base_template="admin/base.html",
 )
-admin.add_view(UserModelView(User, db.session))
-admin.add_view(ModelView(Monitor, db.session))
-admin.add_view(ModelView(Settings, db.session))
+admin.add_view(MyUserModelView(User, db.session))
+admin.add_view(MyModelView(Monitor, db.session))
+admin.add_view(MyModelView(Settings, db.session))
 
 
 @login_manager.user_loader
