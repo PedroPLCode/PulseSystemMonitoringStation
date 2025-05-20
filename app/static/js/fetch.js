@@ -56,8 +56,8 @@ function fetchData() {
             temperatureValueEl.textContent = `${currentTemp}°C`;
             temperatureAverageValueEl.textContent = `${avgTemp.toFixed(2)}°C`;
 
-            temperatureValueEl.className = currentTemp > limitTemp ? 'text-danger' : 'text-success';
-            temperatureAverageValueEl.className = avgTemp > limitTemp ? 'text-danger' : 'text-success';
+            temperatureValueEl.className = currentTemp > limitTemp ? 'text-danger fw-bold' : 'text-success fw-bold';
+            temperatureAverageValueEl.className = avgTemp > limitTemp ? 'text-danger fw-bold' : 'text-success fw-bold';
 
             document.getElementById('cpuAverageValue').textContent = `${calculateAverage(data.cpu_usage, timestamps).toFixed(2)}%`;
             document.getElementById('ramAverageValue').textContent = `${calculateAverage(data.ram, timestamps).toFixed(2)}%`;
