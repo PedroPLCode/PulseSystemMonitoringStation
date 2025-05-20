@@ -2,9 +2,9 @@ bind = "0.0.0.0:8003"
 workers = 4
 timeout = 256
 
-#accesslog = "/home/pedro/PulseSystemMonitoringStation/gunicorn.log"
-#errorlog = "/home/pedro/PulseSystemMonitoringStation/gunicorn.log"
-#loglevel = "info"  # debug, info, warning, error, critical
+accesslog = "/home/pedro/PulseSystemMonitoringStation/gunicorn.log"
+errorlog = "/home/pedro/PulseSystemMonitoringStation/gunicorn.log"
+loglevel = "info"  # debug, info, warning, error, critical
 
 
 def when_ready(server):
