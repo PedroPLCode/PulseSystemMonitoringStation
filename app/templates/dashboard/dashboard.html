@@ -12,15 +12,15 @@
         </div>
         <div class="card-body text-center">
             <p class="m-0 p-0 mb-3">Last record id: <span class="text-primary">{{ last_record.id }}</span><br>timestamp: <span class="text-primary">{{ last_record.timestamp.strftime('%Y-%m-%d %H:%M:%S') | default('N/A') }}</span></p>
-            <p class="text-center m-0 p-0">Current CPU Usage: <span class="text-primary fw-bold" id="cpuUsageValue">N/A</span></p>
-            <p class="text-center m-0 p-0 mb-3">10min Average CPU Usage: <span class="text-primary fw-bold" id="cpuAverageValue">N/A</span></p>
-            <p class="text-center m-0 p-0">Current CPU Temperature: <span class="text-primary fw-bold" id="temperatureValue">N/A</span></p>
-            <p class="text-center m-0 p-0 mb-3">10min Average CPU Temperature: <span class="text-primary fw-bold" id="temperatureAverageValue">N/A</span></p>
-            <p class="text-center m-0 p-0">Current RAM Usage: <span class="text-primary fw-bold" id="ramUsageValue">N/A</span></p>
-            <p class="text-center m-0 p-0 mb-3">10min Average RAM Usage: <span class="text-primary fw-bold" id="ramAverageValue">N/A</span></p>
-            <p class="text-center m-0 p-0 mb-3">Current Disk Usage: <span class="text-primary fw-bold" id="diskUsageValue">N/A</span></p>
-            <p class="text-center m-0 p-0">Current Network Sent: <span class="text-primary fw-bold" id="netSentValue">N/A</span></p>
-            <p class="text-center m-0 p-0 mb-3">Current Network Received: <span class="text-primary fw-bold" id="netRecvValue">N/A</span></p>
+            <p class="text-center m-0 p-0">Current CPU Usage: <span class="text-primary" id="cpuUsageValue">N/A</span></p>
+            <p class="text-center m-0 p-0 mb-3">10min Average CPU Usage: <span class="text-primary" id="cpuAverageValue">N/A</span></p>
+            <p class="text-center m-0 p-0">Current CPU Temperature: <span class="text-primary" id="temperatureValue">N/A</span></p>
+            <p class="text-center m-0 p-0 mb-3">10min Average CPU Temperature: <span class="text-primary" id="temperatureAverageValue">N/A</span></p>
+            <p class="text-center m-0 p-0">Current RAM Usage: <span class="text-primary" id="ramUsageValue">N/A</span></p>
+            <p class="text-center m-0 p-0 mb-3">10min Average RAM Usage: <span class="text-primary" id="ramAverageValue">N/A</span></p>
+            <p class="text-center m-0 p-0 mb-3">Current Disk Usage: <span class="text-primary" id="diskUsageValue">N/A</span></p>
+            <p class="text-center m-0 p-0">Current Network Sent: <span class="text-primary" id="netSentValue">N/A</span></p>
+            <p class="text-center m-0 p-0 mb-3">Current Network Received: <span class="text-primary" id="netRecvValue">N/A</span></p>
             <p class="m-0 p-0 mb-3">System Uptime:<br><span class="text-primary">{{ system_uptime | default('N/A') }}</span></p>
             <p class="m-0 p-0">User Agent:<br><span class="text-primary">{{ user_agent | default('N/A') }}</span></p>
         </div>
