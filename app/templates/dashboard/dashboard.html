@@ -6,30 +6,41 @@
 
 <div class="container col-12 col-md-6">
 
-    <div class="card bg-light border-success mb-4">
-        <div class="card-header border-success text-center">
+    <div class="card bg-light mb-4">
+        <div class="card-header text-center">
             <h4 class="text-center m-0 p-0">Dashboard<br>Current data</h4>
         </div>
         <div class="card-body text-center">
-            <p class="m-0 p-0 mb-3">Last record id: <span class="text-primary">{{ last_record.id }}</span><br>timestamp: <span class="text-primary">{{ last_record.timestamp.strftime('%Y-%m-%d %H:%M:%S') | default('N/A') }}</span></p>
-            <p class="text-center m-0 p-0">Current CPU Usage: <span class="text-primary" id="cpuUsageValue">N/A</span></p>
-            <p class="text-center m-0 p-0 mb-3">10min Average CPU Usage: <span class="text-primary" id="cpuAverageValue">N/A</span></p>
-            <p class="text-center m-0 p-0">Current CPU Temperature: <span class="text-primary" id="temperatureValue">N/A</span></p>
-            <p class="text-center m-0 p-0 mb-3">10min Average CPU Temperature: <span class="text-primary" id="temperatureAverageValue">N/A</span></p>
-            <p class="text-center m-0 p-0">Current RAM Usage: <span class="text-primary" id="ramUsageValue">N/A</span></p>
-            <p class="text-center m-0 p-0 mb-3">10min Average RAM Usage: <span class="text-primary" id="ramAverageValue">N/A</span></p>
-            <p class="text-center m-0 p-0 mb-3">Current Disk Usage: <span class="text-primary" id="diskUsageValue">N/A</span></p>
-            <p class="text-center m-0 p-0">Current Network Sent: <span class="text-primary" id="netSentValue">N/A</span></p>
-            <p class="text-center m-0 p-0 mb-3">Current Network Received: <span class="text-primary" id="netRecvValue">N/A</span></p>
-            <p class="m-0 p-0 mb-3">System Uptime:<br><span class="text-primary">{{ system_uptime | default('N/A') }}</span></p>
-            <p class="m-0 p-0">User Agent:<br><span class="text-primary">{{ user_agent | default('N/A') }}</span></p>
+            <p class="m-0 p-0 mb-3">Last record id: <span class="">{{ last_record.id }}</span><br>timestamp: <span class="">{{ last_record.timestamp.strftime('%Y-%m-%d %H:%M:%S') | default('N/A') }}</span></p>
+            <a href="#cpu" class="anchor">
+                <p class="text-center m-0 p-0">Current CPU Usage: <span class="text-primary" id="cpuUsageValue">N/A</span></p>
+                <p class="text-center m-0 p-0 mb-3">10min Average CPU Usage: <span class="text-primary" id="cpuAverageValue">N/A</span></p>
+            </a>
+            <a href="#temp" class="anchor">
+                <p class="text-center m-0 p-0">Current CPU Temperature: <span class="temp text-primary" id="temperatureValue">N/A</span></p>
+                <p class="text-center m-0 p-0 mb-3">10min Average CPU Temperature: <span class="temp text-primary" id="temperatureAverageValue">N/A</span></p>
+            </a>
+            <a href="#ram" class="anchor">
+                <p class="text-center m-0 p-0">Current RAM Usage: <span class="text-primary" id="ramUsageValue">N/A</span></p>
+                <p class="text-center m-0 p-0 mb-3">10min Average RAM Usage: <span class="text-primary" id="ramAverageValue">N/A</span></p>
+            </a>
+            <a href="#hdd" class="anchor">
+                <p class="text-center m-0 p-0 mb-3">Current Disk Usage: <span class="text-primary" id="diskUsageValue">N/A</span></p>
+            </a>
+            <a href="#net" class="anchor">
+                <p class="text-center m-0 p-0">Current Network Sent: <span class="text-primary" id="netSentValue">N/A</span></p>
+                <p class="text-center m-0 p-0 mb-3">Current Network Received: <span class="text-primary" id="netRecvValue">N/A</span></p>
+            </a>
+            <p class="m-0 p-0 mb-3">System Uptime:<br><span class="">{{ system_uptime | default('N/A') }}</span></p>
+            <p class="m-0 p-0">User Agent:<br><span class="">{{ user_agent | default('N/A') }}</span></p>
         </div>
     </div>
 
     <div class="row g-4">
+        <span id="cpu" class="m-0 p-0"></span>
         <div class="col-12">
-            <div class="card border-success">
-                <div class="card-header border-success text-center">
+            <div class="card">
+                <div class="card-header text-center">
                     <h4 class="text-center m-0 p-0">CPU Usage [%]<br> Last 24 hours</h4>
                 </div>
                 <div class="card-body text-center">
@@ -37,10 +48,11 @@
                 </div>
             </div>
         </div>
-    
+        
+        <span id="temp" class="m-0 p-0"></span>
         <div class="col-12">
-            <div class="card border-success">
-                <div class="card-header border-success text-center">
+            <div class="card">
+                <div class="card-header text-center">
                     <h4 class="text-center m-0 p-0">CPU Temperature [°C]<br> Last 24 hours</h4>
                 </div>
                 <div class="card-body text-center">
@@ -48,10 +60,11 @@
                 </div>
             </div>
         </div>
-    
+        
+        <span id="ram" class="m-0 p-0"></span>
         <div class="col-12">
-            <div class="card border-success">
-                <div class="card-header border-success text-center">
+            <div class="card">
+                <div class="card-header text-center">
                     <h4 class="text-center m-0 p-0">RAM Usage [%]<br> Last 24 hours</h4>
                 </div>
                 <div class="card-body text-center">
@@ -59,10 +72,11 @@
                 </div>
             </div>
         </div>
-    
+        
+        <span id="net" class="m-0 p-0"></span>
         <div class="col-md-6">
-            <div class="card border-success">
-                <div class="card-header border-success text-center">
+            <div class="card">
+                <div class="card-header text-center">
                     <h4 class="text-center m-0 p-0">Network Sent [MB]<br> Last 24 hours</h4>
                 </div>
                 <div class="card-body text-center">
@@ -72,8 +86,8 @@
         </div>
     
         <div class="col-md-6">
-            <div class="card border-success">
-                <div class="card-header border-success text-center">
+            <div class="card">
+                <div class="card-header text-center">
                     <h4 class="text-center m-0 p-0">Network Rec [MB]<br> Last 24 hours</h4>
                 </div>
                 <div class="card-body text-center">
@@ -81,10 +95,11 @@
                 </div>
             </div>
         </div>
-    
+        
+        <span id="hdd" class="m-0 p-0"></span>
         <div class="col-12">
-            <div class="card border-success">
-                <div class="card-header border-success text-center">
+            <div class="card">
+                <div class="card-header text-center">
                     <h4 class="text-center m-0 p-0">Disk Usage [%]<br> Last 24hrs</h4>
                 </div>
                 <div class="card-body text-center">
@@ -102,4 +117,3 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="module" src="{{ url_for('static', filename='js/monitoring.js') }}"></script>
 {% endblock %}
-

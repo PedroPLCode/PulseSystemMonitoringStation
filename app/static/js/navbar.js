@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const scrollTopBtn = document.getElementById("scrollTopBtn");
     const navbarToggler = document.querySelector(".navbar-toggler");
     const navbarCollapse = document.querySelector(".navbar-collapse");
+    const anchors = document.querySelectorAll(".anchor");
     const scrollLimit = 150;
     const mobileLimit = 992;
 
@@ -31,6 +32,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 navbarCollapse.classList.remove("show");
                 document.body.classList.remove("nav-open");
             }
+        });
+    });
+
+    anchors.forEach(anchor => {
+        anchor.addEventListener("click", () => {
+            navbar.classList.remove("fixed-top")
+            navbarCollapse.classList.remove("show");
+            document.body.classList.remove("nav-open");
         });
     });
 });

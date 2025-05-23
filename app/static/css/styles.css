@@ -1,3 +1,11 @@
+a {
+    text-decoration: none;
+}
+
 .card-header h4 {
     min-height: 60px;
+}
+
+.temp {
+    color: inherit;
 }
